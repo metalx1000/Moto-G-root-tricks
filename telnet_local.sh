@@ -1,5 +1,12 @@
 #!/bin/bash
 
+img=boot.img
+img2=boot2.img
+
+url="https://github.com/metalx1000/Moto-G-root-tricks/blob/master/img/stock_boot.img?raw=true"
+dir="work"
+mkdir $dir
+
 #check if root user
 if [[ $EUID -ne 0 ]]; then
   echo "You must be a root user"
@@ -15,28 +22,22 @@ then
 fi
 
 #get stock boot img
-url="https://github.com/metalx1000/Moto-G-root-tricks/blob/master/img/stock_boot.img?raw=true"
-dir="work"
-mkdir $dir
-
 wget -c "$url" -O "$dir/boot.img"
 
 cd $dir
 #unpack stock boot img
-img=boot.img
-img2=boot2.img
-
 file $img
 #head -n1 $img
 mkdir boot
 cd boot
 
+abootimg -x ../$img
+file initrd.img
+
 echo "updating bootimg.cfg"
 rm bootimg.cfg
 wget "https://raw.githubusercontent.com/metalx1000/Moto-G-root-tricks/master/config/bootimg.cfg"
 
-abootimg -x ../$img
-file initrd.img
 mkdir ramdisk
 cd ramdisk
 gunzip -c ../initrd.img | cpio -i
@@ -68,10 +69,16 @@ wget "https://github.com/metalx1000/Moto-G-root-tricks/blob/master/bin/busybox?r
 chmod 777 sbin/busybox
 
 #repack boot img
+cd ../
+pwd
 rm -fr initrd_new.img
 abootimg-pack-initrd initrd_new.img ramdisk/
 abootimg --create ../$img2 -f bootimg.cfg -k zImage -r initrd_new.img
 cd ../
 sudo adb reboot bootloader
-sudo fastboot boot $img2
+echo "--"
+ls
+echo "--"
+echo "Loading $img2 to phone's RAM..."
+sudo fastboot boot ./$img2
 #sudo adb shell
