@@ -4,7 +4,7 @@
 if [[ $EUID -ne 0 ]]; then
   echo "You must be a root user"
   echo "Trying to restart script as sudo"
-  sudo $@
+  sudo $0
   exit 
 fi
 
@@ -38,6 +38,9 @@ gunzip -c ../initrd.img | cpio -i
 
 #change selinux to permissive
 #by adding androidboot.selinux=permissive  to the “cmdline” in the bootimg.cfg file
-vim boot/bootimg.cfg
+#vim boot/bootimg.cfg
+sed -i "s/utags/utags androidboot.selinux=permissive/g" bootimg.cfg
+
+
 
 
