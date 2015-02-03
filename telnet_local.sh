@@ -30,6 +30,11 @@ file $img
 #head -n1 $img
 mkdir boot
 cd boot
+
+echo "updating bootimg.cfg"
+rm bootimg.cfg
+wget "https://raw.githubusercontent.com/metalx1000/Moto-G-root-tricks/master/config/bootimg.cfg"
+
 abootimg -x ../$img
 file initrd.img
 mkdir ramdisk
@@ -61,12 +66,6 @@ chmod 777 init_my.sh
 echo "Getting Busybox for boot image..."
 wget "https://github.com/metalx1000/Moto-G-root-tricks/blob/master/bin/busybox?raw=true" -O sbin/busybox
 chmod 777 sbin/busybox
-
-#change selinux to permissive
-#by adding androidboot.selinux=permissive  to the “cmdline” in the bootimg.cfg file
-#vim boot/bootimg.cfg
-#cd ../
-#sed -i "s/utags/utags androidboot.selinux=permissive/g" bootimg.cfg
 
 #repack boot img
 rm -fr initrd_new.img
