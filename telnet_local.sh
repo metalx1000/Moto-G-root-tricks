@@ -52,8 +52,8 @@ cat << EOS >> init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-#/system/bin/busybox telnetd -p 9999 -l /system/bin/sh
-/sbin/busybox telnetd -p 9999 -l /system/bin/sh
+/system/bin/busybox telnetd -p 9999 -l /system/bin/sh
+#/sbin/busybox telnetd -p 9999 -l /system/bin/sh
 
 EOS
 chmod 777 init_my.sh
@@ -65,17 +65,14 @@ chmod 777 sbin/busybox
 #change selinux to permissive
 #by adding androidboot.selinux=permissive  to the “cmdline” in the bootimg.cfg file
 #vim boot/bootimg.cfg
-cd ../../
-sed -i "s/utags/utags androidboot.selinux=permissive/g" bootimg.cfg
+#cd ../
+#sed -i "s/utags/utags androidboot.selinux=permissive/g" bootimg.cfg
 
 #repack boot img
 rm -fr initrd_new.img
-abootimg-pack-initrd ../initrd_new.img ramdisk/
+abootimg-pack-initrd initrd_new.img ramdisk/
 abootimg --create ../$img2 -f bootimg.cfg -k zImage -r initrd_new.img
 cd ../
 sudo adb reboot bootloader
 sudo fastboot boot $img2
-sudo adb shell
-
-
-
+#sudo adb shell
