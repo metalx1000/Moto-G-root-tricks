@@ -19,7 +19,7 @@ url="https://github.com/metalx1000/Moto-G-root-tricks/blob/master/img/stock_boot
 dir="work"
 mkdir $dir
 
-wget "$url" -O "$dir/boot.img"
+wget -c "$url" -O "$dir/boot.img"
 
 cd $dir
 #unpack stock boot img
@@ -36,9 +36,32 @@ mkdir ramdisk
 cd ramdisk
 gunzip -c ../initrd.img | cpio -i
 
+echo "Adding Service to Startup..."
+cat << EOF >> init.rc
+
+service init_my /init_my.sh
+    class main
+    user root
+    group root
+    oneshot
+
+EOF
+
+echo "Creating Custom init Script..."
+cat << EOS >> init_my.sh
+#!/system/bin/sh
+echo "loading..."
+sleep 30
+/system/bin/busybox telnetd -p 9999 -l /system/bin/sh
+
+EOS
+chmod 777 init_my.sh
+
+
 #change selinux to permissive
 #by adding androidboot.selinux=permissive  to the “cmdline” in the bootimg.cfg file
 #vim boot/bootimg.cfg
+cd ../
 sed -i "s/utags/utags androidboot.selinux=permissive/g" bootimg.cfg
 
 
