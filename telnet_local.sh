@@ -2,6 +2,7 @@
 
 img=boot.img
 img2=boot2.img
+port=9999
 
 url="https://github.com/metalx1000/Moto-G-root-tricks/blob/master/img/stock_boot.img?raw=true"
 dir="work"
@@ -74,7 +75,7 @@ cat << EOS >> init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-/system/bin/busybox telnetd -p 9999 -l /system/bin/sh $access
+/system/bin/busybox telnetd -p $port -l /system/bin/sh $access
 #/sbin/busybox telnetd -p 9999 -l /system/bin/sh
 
 EOS
