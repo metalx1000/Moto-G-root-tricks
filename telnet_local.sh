@@ -16,6 +16,9 @@ if [[ $EUID -ne 0 ]]; then
   exit 
 fi
 
+echo "Removing any previous work..."
+rm $dir
+
 if [ "$1" = "remote" ]
 then
   echo """
