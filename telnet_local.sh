@@ -97,10 +97,10 @@ rm -fr initrd_new.img
 abootimg-pack-initrd initrd_new.img ramdisk/
 abootimg --create ../$img2 -f bootimg.cfg -k zImage -r initrd_new.img
 cd ../
-sudo adb reboot bootloader
+adb reboot bootloader
 echo "--"
 ls
 echo "--"
 echo "Loading $img2 to phone's RAM..."
-sudo fastboot boot ./$img2
-#sudo adb shell
+fastboot boot ./$img2
+#adb shell
