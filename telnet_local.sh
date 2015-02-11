@@ -79,8 +79,9 @@ cat << EOS >> init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-/system/bin/busybox telnetd -p $port -l /system/bin/sh $access
-#/sbin/busybox telnetd -p 9999 -l /system/bin/sh
+#/system/bin/busybox telnetd -p $port -l /system/bin/sh $access
+/sbin/busybox telnetd -p $port -l /system/bin/sh $access
+
 
 EOS
 chmod 777 init_my.sh
