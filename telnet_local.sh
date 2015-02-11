@@ -6,7 +6,6 @@ port=9999
 
 url="https://github.com/metalx1000/Moto-G-root-tricks/blob/master/img/stock_boot.img?raw=true"
 dir="work"
-mkdir $dir
 
 #check if root user
 if [[ $EUID -ne 0 ]]; then
@@ -18,6 +17,8 @@ fi
 
 echo "Removing any previous work..."
 rm $dir
+
+mkdir $dir
 
 if [ "$1" = "remote" ]
 then
