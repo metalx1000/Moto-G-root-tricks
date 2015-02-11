@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [ "$1" = "remote" ]
-then
-  access=""
-else
-  access=" -b 127.0.0.1 "
-fi
-
 img=boot.img
 img2=boot2.img
 
@@ -18,9 +11,25 @@ mkdir $dir
 if [[ $EUID -ne 0 ]]; then
   echo "You must be a root user"
   echo "Trying to restart script as sudo"
-  sudo $0
+  sudo $0 $@
   exit 
 fi
+
+if [ "$1" = "remote" ]
+then
+  echo """
+    Warning!!!
+    This is not safe!
+    By using 'remote' option you
+    are granting root access to
+    anyone on your network
+"""
+  sleep 2
+  access=""
+else
+  access="-b 127.0.0.1"
+fi
+
 
 #check for needed programs
 if [ ! -f "/usr/bin/abootimg" ] || [ ! -f "/usr/bin/fastboot" ] || [ ! -f "/usr/bin/adb" ]
