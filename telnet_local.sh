@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ["$1" = "remote"]
+if [ "$1" = "remote" ]
 then
   access=""
 else
