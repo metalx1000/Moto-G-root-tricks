@@ -16,7 +16,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo "Removing any previous work..."
-rm $dir
+rm -fr $dir
 
 mkdir $dir
 
