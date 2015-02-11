@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if ["$1" = "remote"]
+then
+  access=""
+else
+  access=" -b 127.0.0.1 "
+fi
+
 img=boot.img
 img2=boot2.img
 
@@ -58,7 +65,7 @@ cat << EOS >> init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-/system/bin/busybox telnetd -p 9999 -l /system/bin/sh
+/system/bin/busybox telnetd -p 9999 -l /system/bin/sh $access
 #/sbin/busybox telnetd -p 9999 -l /system/bin/sh
 
 EOS
