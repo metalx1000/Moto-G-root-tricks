@@ -43,7 +43,7 @@ then
 fi
 
 #get stock boot img
-wget -c "$url" -O "$dir/boot.img"
+wget -c "$url" -O "$dir/$img"
 
 cd $dir
 #unpack stock boot img
