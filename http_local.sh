@@ -20,21 +20,6 @@ rm -fr $dir
 
 mkdir $dir
 
-if [ "$1" = "remote" ]
-then
-  echo """
-    Warning!!!
-    This is not safe!
-    By using 'remote' option you
-    are granting root access to
-    anyone on your network
-"""
-  sleep 2
-  access=""
-else
-  access="-b 127.0.0.1"
-fi
-
 
 #check for needed programs
 if [ ! -f "/usr/bin/abootimg" ] || [ ! -f "/usr/bin/fastboot" ] || [ ! -f "/usr/bin/adb" ]
@@ -63,6 +48,19 @@ mkdir ramdisk
 cd ramdisk
 gunzip -c ../initrd.img | cpio -i
 
+echo "Getting http config files..."
+wget "https://github.com/metalx1000/Moto-G-root-tricks/blob/master/www.zip?raw=true" -O www.zip
+unzip www.zip
+rm www.zip
+chmod +x www/cgi-bin/*
+
+echo -n "Please Enter a Username: "
+read user
+
+echo -n "Please Enter a Password: "
+read password
+
+echo "/:$user:$password" >> www.conf
 
 echo "Adding Service to Startup..."
 cat << EOF >> init.rc
@@ -80,7 +78,7 @@ cat << EOS > init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-/sbin/busybox httpd -c www.conf
+/sbin/busybox httpd -p $port -h /www -c www.conf
 
 
 EOS
