@@ -12,9 +12,9 @@ echo "$div"
 
 uname -a
 echo "$div"
-/system/bin/busybox ifconfig
+/sbin/busybox ifconfig
 echo "$div"
-/system/bin/busybox df -h
+/sbin/busybox df -h
 echo "$div"
 
 env
