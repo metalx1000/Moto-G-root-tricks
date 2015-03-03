@@ -1,0 +1,33 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="../js/jquery.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#run").click(function(){
+				var url="/cgi-bin/cmd.cgi";
+				var cmd=$("#input").val();
+				$.get(url,{cmd:cmd}).done(function(data){
+					$("#output").append("<pre>"+data+"</pre>");
+				});
+			});
+
+                        $("#open").click(function(){
+                                var url="/cgi-bin/cmd.cgi";
+                                var cmd=$("#input").val();
+				window.open(url+"?cmd="+cmd, 'output');
+                        });
+
+		});
+	</script>
+</head>
+<body>
+	<input type="text" id="input" style="font-size: 40px;width:100%">
+	<br>
+	<button id="run" style="font-size: 40px;width:50%">Run</button>
+	<button id="open" style="font-size: 40px;width:50%">Open</button>
+	<hr>
+	<div id="output"></div>
+
+</body>
+</html>

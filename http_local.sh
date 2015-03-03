@@ -78,9 +78,8 @@ cat << EOS > init_my.sh
 #!/system/bin/sh
 echo "loading..."
 sleep 30
-/sbin/busybox httpd -p $port -h /www -c www.conf
-
-
+cd /www
+/sbin/busybox httpd -p $port -c ../www.conf
 EOS
 chmod 777 init_my.sh
 
